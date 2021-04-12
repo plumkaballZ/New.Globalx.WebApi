@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -67,7 +68,12 @@ namespace New.Globalx.WebApi.Clients
                 return new List<PickupPoint>();
             }
             var pickupPoints = JsonConvert.DeserializeObject<List<PickupPoint>>(json);
-            return pickupPoints;
+
+            var pickupPointsFormatted =
+                (pickupPoints ?? new List<PickupPoint>()).Select(c => { c.company_name = c.company_name.Replace("- KRÆVER POSTNORD APP", ""); return c; }).ToList();
+
+            return pickupPointsFormatted;
+
         }
 
 
