@@ -10,11 +10,14 @@ namespace New.Globalx.WebApi.Repos
         {
             return new List<Product>()
             {
-                GetCardHolder(),
-                GetXBelt()
+                GetGlobalXCardHolder(),
+                GetXBelt(),
+                GetKeyHanger(),
+                GetBambooSocks(),
+                GetCardHolder()
             };
         }
-        public Product GetCardHolder()
+        public Product GetGlobalXCardHolder()
         {
             const string variantType = "Color";
 
@@ -42,16 +45,16 @@ Kortholderne er dobbeltsidet og kan holde 8 - 10 kort samt sedler",
                 DisplayPrice = "359,95 DKK",
                 Slug = "prod_01",
                 MetaDescription = "Hver og én er udført i hånden og vi har benyttet YKK lynlåse på begge modeller for at sikre den absolut højeste kvalitet. ",
-                SmallImage = "https://shevlin.co/assets/api/_prod/theglobalx/small.png",
+                SmallImage = "pics/theglobalx/small.png",
                 Images = new List<string>()
                 {
-                    "https://shevlin.co/assets/api/_prod/theglobalx/21.jpg",
-                    "https://shevlin.co/assets/api/_prod/theglobalx/22.jpg",
-                    "https://shevlin.co/assets/api/_prod/theglobalx/23.jpg",
-                    "https://scontent-cph2-1.xx.fbcdn.net/v/t1.6435-9/166342251_757031264943326_1875176381245870455_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=kzvaQZmrl8cAX-JEEnb&_nc_ht=scontent-cph2-1.xx&oh=9e63fe9fad9c64d54c1fbff8e9bd9a63&oe=608FC011",
-                    "https://scontent-cph2-1.xx.fbcdn.net/v/t1.6435-9/166482215_757031321609987_7571196016937052831_n.jpg?_nc_cat=108&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=6cTxTE4Hi1IAX_N3ji2&_nc_ht=scontent-cph2-1.xx&oh=9bd016be71f5cee5c06a0ef6f6bf4f45&oe=608FA927",
-                    "https://scontent-cph2-1.xx.fbcdn.net/v/t1.6435-9/43368035_265029634143494_3935031070747000832_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=UbEm3401DrQAX_ftC8r&_nc_ht=scontent-cph2-1.xx&oh=24ccdc3eed3bacb815fc0157c27f0a06&oe=6091F2E8",
-                    "https://scontent-cph2-1.xx.fbcdn.net/v/t1.6435-9/41934622_259256991387425_7586443653980094464_n.jpg?_nc_cat=104&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=QS3EZQ0ZzqwAX84tnOX&_nc_ht=scontent-cph2-1.xx&oh=f5c94fd3d2a20122ffea423cf1f81764&oe=609289DC"
+                    "pics/theglobalx/21.jpg",
+                    "pics/theglobalx/22.jpg",
+                    "pics/theglobalx/23.jpg",
+                    "pics/theglobalx/24.jpg",
+                    "pics/theglobalx/25.jpg",
+                    "pics/theglobalx/26.jpg",
+                    "pics/theglobalx/27.jpg"
                 },
                 OptionsText = "(Size: small, Colour: red)",
                 InStock = true,
@@ -65,7 +68,9 @@ Kortholderne er dobbeltsidet og kan holde 8 - 10 kort samt sedler",
                     "100% vegetabilsk garvet læder",
                     "Utrolig holdbar",
                     "Får unik patina over tid"
-                }
+                },
+                HasVariants = true,
+                FilterCategory = "Kortholdere"
             };
         }
         public Product GetXBelt()
@@ -109,12 +114,12 @@ er chrom garvet under bæredygtige forhold og overholder alle EU regulationer.",
                 MetaDescription = @"
 Vi har udviklet et bælte der ikke bare er bæredygtigt men samtidig utrolig 
 smukt og klassisk i sit udtryk.",
-                SmallImage = "https://shevlin.co/assets/api/_prod/xbelt/small.png",
+                SmallImage = "pics/xbelt/small.png",
                 Images = new List<string>()
                 {
-                    "https://shevlin.co/assets/api/_prod/xbelt/3.jpg",
-                    "https://shevlin.co/assets/api/_prod/xbelt/2.jpg",
-                    "https://shevlin.co/assets/api/_prod/xbelt/1.jpg",
+                    "pics/xbelt/1.jpg",
+                    "pics/xbelt/2.jpg",
+                    "pics/xbelt/3.jpg",
                 },
                 OptionsText = "(Size: small, Colour: red)",
                 InStock = true,
@@ -128,7 +133,150 @@ smukt og klassisk i sit udtryk.",
                     "Bæredygtig chrom-garvet læder",
                     "Håndlavet",
                     "Ansvarlig"
+                },
+                HasVariants = true,
+                FilterCategory = "Bælter"
+            };
+        }
+        public Product GetKeyHanger()
+        {
+            var variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Id = 8
                 }
+            };
+
+            return new Product()
+            {
+                Name = "Keyhanger By Shevlin",
+                ShortName = "Keyhanger",
+                Description = @"
+Keyhangeren er lavet af samme vegetabilsk garvede lædertype som vores kortholder. 
+Med denne nøglering har du altid dine nøgler med dig på ansvarlig vis, både for din egen skyld men også for miljøets.",
+                Price = "129,95",
+                DisplayPrice = "129,95 DKK",
+                Slug = "prod_01",
+                MetaDescription = "",
+                SmallImage = "pics/keyhanger/small.png",
+                Images = new List<string>()
+                {
+                    "pics/keyhanger/1.jpg",
+                    "pics/keyhanger/2.jpg",
+                    "pics/keyhanger/3.jpg",
+                    "pics/keyhanger/4.jpg",
+                },
+                OptionsText = "(Size: small, Colour: red)",
+                InStock = true,
+                IsBackorderable = true,
+                TotalOnHand = 10,
+                IsDestroyed = false,
+                Variants = variants,
+                DefaultVariant = variants.FirstOrDefault(),
+                LiArray = new List<string>()
+                {
+                    "100% vegetabilsk garvet læder",
+                    "Håndlavet",
+                    "Stilrent design"
+                },
+                HasVariants = false,
+                FilterCategory = "Nøgleringe"
+            };
+        }
+        public Product GetBambooSocks()
+        {
+            const string variantType = "Size";
+
+            var variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Id = 9, Type = variantType, Value = "35-40 EU"
+                },
+                new Variant()
+                {
+                    Id = 10, Type = variantType, Value = "41-48 EU"
+                }
+            };
+
+            return new Product()
+            {
+                Name = "Bamboo socks by Shevlin",
+                ShortName = "Bamboo Socks",
+                Description = @"
+Vi har lavet en sok der ikke bare er behagelig, men samtidig bæredygtig. Den er antibakteriel, super blød, 
+god til sart hud og temperatur regulerende og mindsker fugtige fødder.",
+                Price = "129,95",
+                DisplayPrice = "129,95 DKK",
+                Slug = "prod_01",
+                MetaDescription = @"
+Sokkerne er lavet af bambus for et mere bæredygtigt produkt. 
+Sokkerne sidder tæt til huden og det føles næsten som om man ikke har sokker på.",
+                SmallImage = "pics/socks/small.png",
+                Images = new List<string>()
+                {
+                    "pics/socks/1.jpg",
+                    "pics/socks/2.jpg"
+                },
+                OptionsText = "(Size: small, Colour: red)",
+                InStock = true,
+                IsBackorderable = true,
+                TotalOnHand = 10,
+                IsDestroyed = false,
+                Variants = variants,
+                DefaultVariant = variants.FirstOrDefault(),
+                LiArray = new List<string>()
+                {
+                    "75% Bambus",
+                    "20% Polyester",
+                    "5% Elastin"
+                },
+                HasVariants = true,
+                FilterCategory = "Sokker"
+            };
+        }
+        public Product GetCardHolder()
+        {
+            var variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Id = 11
+                }
+            };
+
+            return new Product()
+            {
+                Name = "Card Holder By Shevlin",
+                ShortName = "Card Holder",
+                Description = @"
+Flot vegetabilsk garvet kortholder. Håndsyet for de flotteste resultater og for den bedste holdbarhed.",
+                Price = "249,95",
+                DisplayPrice = "249,95 DKK",
+                Slug = "prod_01",
+                MetaDescription = @"
+Den er dobbeltsiddet med plads til op til 8 kort. Samtidig har du mulighed for at have dine sedler og kvitteringer med på farten.",
+                SmallImage = "pics/cardholder/small.png",
+                Images = new List<string>()
+                {
+                    "pics/cardholder/1.jpeg"
+                },
+                OptionsText = "(Size: small, Colour: red)",
+                InStock = true,
+                IsBackorderable = true,
+                TotalOnHand = 10,
+                IsDestroyed = false,
+                Variants = variants,
+                DefaultVariant = variants.FirstOrDefault(),
+                LiArray = new List<string>()
+                {
+                    "100% vegetabilsk garvet læder",
+                    "Simpel",
+                    "Unisex"
+                },
+                HasVariants = false,
+                FilterCategory = "Kortholdere"
             };
         }
     }

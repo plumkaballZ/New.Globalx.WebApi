@@ -24,7 +24,8 @@
           "netcoreapp3.1"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://proget.ecgdk.io/nuget/Default": {}
         },
         "frameworks": {
           "netcoreapp3.1": {

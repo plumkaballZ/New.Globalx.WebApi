@@ -50,6 +50,13 @@ namespace New.Globalx.WebApi.Repos
             ExecuteSp("xAddress_Delete", paramDic);
             return true;
         }
+      
+        public Address GetPickedServicePoint(string orderUid)
+        {
+            var paramDic = new Dictionary<string, object> { { "@orderUid", orderUid } };
+
+            return GetSingle<Address>("PickedServicePoint_Get", paramDic);
+        }
 
     }
 }

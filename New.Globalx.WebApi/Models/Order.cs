@@ -5,6 +5,7 @@ namespace New.Globalx.WebApi.Models
 {
     public class Order
     {
+        public string Uid { get; set; }
         public string AddressUid { get; set; }
         public string Id { get; set; }
         public string Number { get; set; }
@@ -36,6 +37,7 @@ namespace New.Globalx.WebApi.Models
 
         public Address Bill_Address { get; set; }
         public Address Ship_Address { get; set; }
+        public PickedServicePoint Picked_ServicePoint { get; set; }
 
 
         public string DeliveryCode;

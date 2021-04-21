@@ -24,5 +24,8 @@ namespace New.Globalx.WebApi.Models
         //Variants
         public List<Variant> Variants { get; set; }
         public Variant DefaultVariant { get; set; }
+        public bool HasVariants { get; set; }
+
+        public string FilterCategory { get; set; }
     }
 }

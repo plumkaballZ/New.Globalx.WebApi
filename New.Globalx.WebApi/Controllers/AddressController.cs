@@ -124,9 +124,9 @@ namespace New.Globalx.WebApi.Controllers
 
             foreach (var pickupQuote in quotes.Where(x => pickupProds.Contains(x.product_code)))
             {
-                var pickupPoints = await _pakkeLabelsApiClient.GetPickUpPoints(address, pickupQuote.carrier_code);
+                var servicePoints = await _pakkeLabelsApiClient.GetServicePoints(address, pickupQuote.carrier_code);
 
-                var hasPickupPoints = pickupPoints.Any();
+                var hasServicePoints = servicePoints.Any();
 
                 var opt = new ShippingOption()
                 {
@@ -136,8 +136,8 @@ namespace New.Globalx.WebApi.Controllers
                     product_code = pickupQuote.product_code,
                     price = pickupQuote.price,
                     price_before_vat = pickupQuote.price_before_vat,
-                    pickup_points = hasPickupPoints ? pickupPoints : null,
-                    has_pickup_points = hasPickupPoints
+                    service_points = hasServicePoints ? servicePoints : null,
+                    has_service_points = hasServicePoints
                 };
 
                 shippingOpts.Add(opt);
@@ -155,8 +155,8 @@ namespace New.Globalx.WebApi.Controllers
                     product_code = pickupQuote.product_code,
                     price = pickupQuote.price,
                     price_before_vat = pickupQuote.price_before_vat,
-                    pickup_points = null,
-                    has_pickup_points = false
+                    service_points = null,
+                    has_service_points = false
                 };
 
                 shippingOpts.Add(opt);

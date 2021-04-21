@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using New.Globalx.WebApi.Clients;
+using New.Globalx.WebApi.Models;
 using New.Globalx.WebApi.Models.PakkeLabels;
+using New.Globalx.WebApi.Repos;
 using Newtonsoft.Json;
 
 namespace New.Globalx.WebApi.Controllers
@@ -11,6 +13,7 @@ namespace New.Globalx.WebApi.Controllers
     public class PakkeLabelsController : ControllerBase
     {
         private readonly PakkeLabelsApiClient _pakkeLabelsApiClient = new PakkeLabelsApiClient();
+        private readonly AddressRepo _addressRepo = new AddressRepo();
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -37,6 +40,15 @@ namespace New.Globalx.WebApi.Controllers
             }
 
             return Ok(shippingProducts);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] OrderOverview orderOverview)
+        {
+            var address = _addressRepo.Get(orderOverview.AddressUid);
+
+            var res = await _pakkeLabelsApiClient.CreateShipment(orderOverview, address, 1000);
+
+            return Ok(res);
         }
     }
 }

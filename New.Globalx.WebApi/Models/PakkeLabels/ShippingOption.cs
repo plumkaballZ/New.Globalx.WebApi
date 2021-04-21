@@ -10,7 +10,7 @@ namespace New.Globalx.WebApi.Models.PakkeLabels
         public string product_code { get; set; }
         public string price { get; set; }
         public string price_before_vat { get; set; }
-        public List<PickupPoint> pickup_points { get; set; }
-        public bool has_pickup_points { get; set; }
+        public List<ServicePoint> service_points { get; set; }
+        public bool has_service_points { get; set; }
     }
 }

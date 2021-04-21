@@ -16,5 +16,9 @@ namespace New.Globalx.WebApi.Models
         public string Bill_Address_Id { get; set; }
         public string Ship_Address_Id { get; set; }
         public int Lvl { get; set; }
+        public string ResString { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Ip { get; set; }
     }
 }

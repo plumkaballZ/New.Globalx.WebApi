@@ -9,6 +9,7 @@ namespace New.Globalx.WebApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderRepo _orderRepo = new OrderRepo();
+        private readonly AddressRepo _addressRepo = new AddressRepo();
         private readonly UserRepo _userRepo = new UserRepo();
 
         [HttpGet("{ip}/{email}/{pw}")]
@@ -23,7 +24,9 @@ namespace New.Globalx.WebApi.Controllers
                 if (Guid.TryParse(ip, out _))
                 {
                     if (!_orderRepo.CheckIfOrderExistsOnIp(ip))
+                    {
                         _orderRepo.CreateOrderFromIp(ip);
+                    }
 
                     var currentOrderWitNoUser = _orderRepo.GetCurrentOrderByIp((ip));
 
@@ -36,7 +39,14 @@ namespace New.Globalx.WebApi.Controllers
 
             if (!_orderRepo.CheckIfOrderExistsOnEmail(email))
             {
-                _orderRepo.CreateOrderFromEmail(userUid, ip);
+                if (_orderRepo.CheckIfOrderExistsOnIp(ip))
+                {
+                    _orderRepo.UpdateOrderIp(userUid, ip);
+                }
+                else
+                {
+                    _orderRepo.CreateOrderFromEmail(userUid, ip);
+                }
             }
 
             var currentOrder = _orderRepo.GetCurrentOrderByEmail(email);
@@ -61,6 +71,34 @@ namespace New.Globalx.WebApi.Controllers
 
             return Ok(order);
         }
+
+
+        [HttpGet("getall/{email}/{ip}")]
+        public IActionResult GetAll(string email, string ip)
+        {
+            var allOrders = _orderRepo.GetAll(email, ip);
+
+            foreach (var order in allOrders)
+            {
+                order.Ship_Address = _addressRepo.Get(order.AddressUid);
+            }
+
+            return Ok(allOrders);
+        }
+
+        [HttpGet("getalllvl99")]
+        public IActionResult GetAllLvl99()
+        {
+            var allOrders = _orderRepo.GetAll_lvl99();
+
+            foreach (var order in allOrders)
+            {
+                order.Ship_Address = _addressRepo.Get(order.AddressUid);
+            }
+
+            return Ok(allOrders);
+        }
     }
+
 
 }

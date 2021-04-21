@@ -1,7 +1,8 @@
 ﻿namespace New.Globalx.WebApi.Models.PakkeLabels
 {
-    public class PickupPoint
+    public class ServicePoint
     {
+        public int id { get; set; }
         public string number { get; set; }
         public string company_name { get; set; }
         public string name { get; set; }

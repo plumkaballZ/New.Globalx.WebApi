@@ -7,25 +7,6 @@ namespace New.Globalx.WebApi.Repos
 {
     public class OrderRepo : BaseRepo
     {
-        public Order CreateNewOrder(string userId, string ip)
-        {
-            var orderUid = Guid.NewGuid().ToString();
-
-            var paramDic = new Dictionary<string, object>
-            {
-                {"@userUid", userId}, {"@orderUid", orderUid}, {"@ip", ip}
-            };
-
-            ExecuteSp("xOrder_Create", paramDic);
-
-            return new Order()
-            {
-                Id = orderUid,
-                Number = "R335381310"
-            };
-        }
-
-
         public bool UpdateOrder(Order orderToUpdate)
         {
             var cmd = orderToUpdate.Special_Instructions;
@@ -140,20 +121,10 @@ namespace New.Globalx.WebApi.Repos
 
             ExecuteSp("xOrder_SetPaymentDone", paramDic);
 
-            //pakke label api
-            //var str = PakkeLabelsApiClient.CreateImportedShipment(new xAddress()
-            //    {
-            //        firstname = order.ship_address.firstname,
-            //        address1 = order.ship_address.address1,
-            //        countryId = order.ship_address.countryId,
-            //        phone = order.ship_address.phone,
-            //        zipcode = order.ship_address.zipcode,
-            //        city = order.ship_address.city
-            //    },
-            //    order.ship_address.email,
-            //    order.id,
-            //    order.deliveryCode,
-            //    order.shippingId);
+            if (order.Picked_ServicePoint != null)
+            {
+                CreatePickedServicePoint(order.Picked_ServicePoint, order.Uid);
+            }
 
 
             return true;
@@ -253,22 +224,85 @@ namespace New.Globalx.WebApi.Repos
             return orderUid;
         }
 
-        //public Order GetCurrentOrderNoUser(string userId)
-        //{
-        //    var paramDic = new Dictionary<string, object> { { "@ip", userId } };
+        public List<Order> GetAll(string email, string ip)
+        {
 
-        //    var currOrder = GetSingle<Order>("xOrder_GetCurrentNoUser", paramDic);
+            var paramDic = new Dictionary<string, object> { { "@email", email }, { "@ip", ip } };
 
-        //    if (currOrder.Id == null) return currOrder;
+            var orders = GetList<Order>("xOrder_GetAll", paramDic).ToList();
 
-        //    var paramDic2 = new Dictionary<string, object>
-        //    {
-        //        { "@email", currOrder.Email }, { "@orderId", currOrder.Id }
-        //    };
+            foreach (var order in orders)
+            {
+                var paramDic2 = new Dictionary<string, object>
+                {
+                    {"@email", order.Email}, {"@orderId", order.Id}
+                };
 
-        //    currOrder.line_items = GetList<OrderLine>("xOrder_GetLine", paramDic2).ToList();
+                order.line_items = GetList<OrderLine>("xOrder_GetLine", paramDic2).ToList();
+            }
 
-        //    return currOrder;
-        //}
+            return orders;
+        }
+
+        public Order GetByOrderId(string email, string orderId)
+        {
+            var paramDic = new Dictionary<string, object> { { "@email", email }, { "@orderId", orderId } };
+
+            var order = GetSingle<Order>("xOrder_Get", paramDic);
+
+            if (order != null)
+                order.line_items = GetList<OrderLine>("xOrder_GetLine", paramDic);
+
+            return order;
+        }
+
+        public List<Order> GetAll_lvl99()
+        {
+            var orders = GetList<Order>("xOrder_GetAll_lvl99", new Dictionary<string, object>()).ToList();
+
+            foreach (var order in orders)
+            {
+                var paramDic = new Dictionary<string, object>
+                {
+                    {"@email", order.Email}, {"@orderId", order.Id}
+                };
+
+                order.line_items = GetList<OrderLine>("xOrder_GetLine", paramDic).ToList();
+            }
+
+            return orders;
+
+        }
+
+        public bool UpdateOrderIp(string userUid, string ip)
+        {
+
+            var paramDic = new Dictionary<string, object> { { "@userUid", userUid }, { "@ip", ip } };
+
+
+            ExecuteSp("xOrder_Update_Ip", paramDic);
+
+            return true;
+        }
+
+        public string CreatePickedServicePoint(PickedServicePoint pickedService, string orderUid)
+        {
+            var paramDic = new Dictionary<string, object>();
+
+            var uid = Guid.NewGuid().ToString();
+
+            paramDic.Add("@uid", uid);
+            paramDic.Add("@orderUid", orderUid);
+            paramDic.Add("@carrierCode", pickedService.carrierCode);
+            paramDic.Add("@companyName", pickedService.companyName);
+            paramDic.Add("@address", pickedService.address);
+            paramDic.Add("@zipcode", pickedService.zipcode);
+            paramDic.Add("@city", pickedService.city);
+
+            ExecuteSp("PickedServicePoint_Create", paramDic);
+
+            return uid;
+        }
+
     }
 }
