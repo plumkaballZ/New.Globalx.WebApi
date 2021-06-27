@@ -51,11 +51,11 @@ namespace New.Globalx.WebApi.Repos
             return true;
         }
       
-        public Address GetPickedServicePoint(string orderUid)
+        public PickedServicePoint GetPickedServicePoint(string orderUid)
         {
             var paramDic = new Dictionary<string, object> { { "@orderUid", orderUid } };
 
-            return GetSingle<Address>("PickedServicePoint_Get", paramDic);
+            return GetSingle<PickedServicePoint>("PickedServicePoint_Get", paramDic);
         }
 
     }

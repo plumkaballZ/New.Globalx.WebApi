@@ -8,5 +8,6 @@
         public string address { get; set; }
         public string zipcode { get; set; }
         public string city { get; set; }
+        public string productName { get; set; }
     }
 }

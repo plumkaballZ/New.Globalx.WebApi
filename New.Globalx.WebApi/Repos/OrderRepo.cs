@@ -298,6 +298,7 @@ namespace New.Globalx.WebApi.Repos
             paramDic.Add("@address", pickedService.address);
             paramDic.Add("@zipcode", pickedService.zipcode);
             paramDic.Add("@city", pickedService.city);
+            paramDic.Add("@productName", pickedService.productName);
 
             ExecuteSp("PickedServicePoint_Create", paramDic);
 

@@ -67,8 +67,6 @@ namespace New.Globalx.WebApi.Controllers
 
             var res = _orderRepo.UpdateOrder(order);
 
-            Console.WriteLine(res);
-
             return Ok(order);
         }
 
@@ -81,6 +79,13 @@ namespace New.Globalx.WebApi.Controllers
             foreach (var order in allOrders)
             {
                 order.Ship_Address = _addressRepo.Get(order.AddressUid);
+                var pickedServicePoint = _addressRepo.GetPickedServicePoint(order.Uid);
+
+                if (pickedServicePoint != null)
+                {
+                    pickedServicePoint.carrierCode = GetDisplayStringForQuote(pickedServicePoint.carrierCode);
+                    order.Picked_ServicePoint = pickedServicePoint;
+                }
             }
 
             return Ok(allOrders);
@@ -94,9 +99,30 @@ namespace New.Globalx.WebApi.Controllers
             foreach (var order in allOrders)
             {
                 order.Ship_Address = _addressRepo.Get(order.AddressUid);
+
+                var pickedServicePoint = _addressRepo.GetPickedServicePoint(order.Uid);
+
+                if (pickedServicePoint != null)
+                {
+                    pickedServicePoint.carrierCode = GetDisplayStringForQuote(pickedServicePoint.carrierCode);
+                    order.Picked_ServicePoint = pickedServicePoint;
+                }
             }
 
             return Ok(allOrders);
+        }
+        private string GetDisplayStringForQuote(string productCode)
+        {
+            return productCode switch
+            {
+                "DAO_STS" => "dao - Pakke til udleveringssted",
+                "DAO_STH" => "dao - Pakke til privat",
+                "GLSDK_SD" => "GLS Denmark - Pakke til pakkeshop",
+                "PDK_MC" => "PostNord - Pakke til udleveringssted",
+                "PDK_MH" => "PostNord - Pakke til privat",
+                "PDK_EMS" => "PostNord - Pakke til privat og erhverv",
+                _ => "notfound"
+            };
         }
     }
 

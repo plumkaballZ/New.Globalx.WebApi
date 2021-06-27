@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Net.Mime;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using New.Globalx.WebApi.Clients;
+using New.Globalx.WebApi.Models;
+using New.Globalx.WebApi.Models.PakkeLabels;
 
 namespace New.Globalx.WebApi.Controllers
 {
@@ -18,18 +21,10 @@ namespace New.Globalx.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //var token = await _pakkeLabelsApiClient.GetQuotesList();
-
-            //var carriersTest = await _pakkeLabelsApiClient.GetCarriers();
-            //var prodsTest = await _pakkeLabelsApiClient.GetProducts();
-
-            //var pickupPoints = await _pakkeLabelsApiClient.GetPickupPointsTest(token);
-
-            //var freightRates = _pakkeLabelsApiClient.GetFreightRatesByCountry("DK", token);
-
             var pingString = $@"
-[web api is running:: True]
-[db state:: {GetDbSate()}]";
+[web api is running:: true]
+[database state:: {GetDbSate()}]
+[pakkelabelsapi found number of quotes:: {GetTestQuotes().Result.Count}]";
 
             return Ok(pingString);
         }
@@ -59,7 +54,23 @@ namespace New.Globalx.WebApi.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+        }
+        private async Task<List<ShippingQuote>> GetTestQuotes()
+        {
+            var senderAddress = new Address()
+            {
+                Firstname = "Anthony",
+                Lastname = "Shevlin",
+                Company = "Shevlin.co",
+                Address1 = "Scandiagade 14",
+                Zipcode = "8930",
+                City = "Randers NØ",
+                Email = "shevlinco@gmail.com",
+                CountryId = "DK"
+            };
+            var quotes = await _pakkeLabelsApiClient.GetQuotesByAddress(senderAddress, 1000);
 
+            return quotes;
         }
     }
 }
