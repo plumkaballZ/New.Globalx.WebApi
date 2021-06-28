@@ -70,6 +70,20 @@ namespace New.Globalx.WebApi.Controllers
             return Ok(order);
         }
 
+        [HttpGet("setordersent/{orderId}/{addressUid}")]
+        public IActionResult SetOrderSent(string orderId, string addressUid)
+        {
+
+            if (string.IsNullOrEmpty(orderId))
+            {
+                return BadRequest("orderId cannot be null");
+            }
+
+            var res = _orderRepo.SetShipmentSent(orderId, addressUid);
+
+            return Ok(res);
+        }
+
 
         [HttpGet("getall/{email}/{ip}")]
         public IActionResult GetAll(string email, string ip)
