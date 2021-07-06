@@ -22,7 +22,7 @@ namespace New.Globalx.WebApi
         {
             services.AddControllers()
                 .AddNewtonsoftJson();
-            
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -60,7 +60,9 @@ namespace New.Globalx.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                     "default",
+                     "{controller=Ping}/{action=Index}/{id?}");
             });
         }
     }
